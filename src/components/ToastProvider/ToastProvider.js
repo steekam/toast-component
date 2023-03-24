@@ -22,7 +22,11 @@ function ToastProvider({ children }) {
     );
   }
 
-  return <ToastContext.Provider value={{toasts, popToast, dismissToast}}>
+  function dismissAll() {
+    setToasts([]);
+  }
+
+  return <ToastContext.Provider value={{toasts, popToast, dismissToast, dismissAll}}>
     {children}
   </ToastContext.Provider>;
 }
