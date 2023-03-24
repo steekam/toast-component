@@ -18,16 +18,24 @@ const ICONS_BY_VARIANT = {
   error: AlertOctagon,
 };
 
-function Toast() {
+export const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
+
+function Toast({ message, variant, dismissToast }) {
+  if (!VARIANT_OPTIONS.includes(variant)) {
+    throw Error(`Unrecognised variant: ${variant} Expected: ${VARIANT_OPTIONS}`);
+  }
+
+  const Icon = ICONS_BY_VARIANT[variant];
+
   return (
-    <div className={`${styles.toast} ${styles.notice}`}>
+    <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
-        <Info size={24} />
+        <Icon size={24} />
       </div>
       <p className={styles.content}>
-        16 photos have been uploaded
+        {message}
       </p>
-      <button className={styles.closeButton}>
+      <button onClick={dismissToast} className={styles.closeButton}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>

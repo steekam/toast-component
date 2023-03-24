@@ -1,23 +1,28 @@
 import React from 'react';
 
 import Button from '../Button';
+import Toast, { VARIANT_OPTIONS } from '../Toast';
 
 import styles from './ToastPlayground.module.css';
 
-const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
-
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
+  const [variant, setVariant] = React.useState("notice");
 
-  const [selectedVariant, setSelectedVariant] = React.useState("");
+  const [showToast, setShowToast] = React.useState(false);
+  function dismissToast() {
+    setShowToast(false);
+  }
 
   function createToast(event) {
     event.preventDefault();
 
-    console.info({ message, selectedVariant });
+    setShowToast(true);
 
-    setMessage("");
-    setSelectedVariant("");
+    console.info({ message, selectedVariant: variant });
+
+    // setMessage("");
+    // setVariant("notice");
   }
 
   return (
@@ -26,6 +31,8 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      {showToast && <Toast message={message} variant={variant} dismissToast={dismissToast} />}
 
       <form onSubmit={createToast} className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -52,8 +59,8 @@ function ToastPlayground() {
                   type="radio"
                   name="variant"
                   value={option}
-                  checked={selectedVariant === option}
-                  onChange={(e) => setSelectedVariant(option)}
+                  checked={variant === option}
+                  onChange={(e) => setVariant(option)}
                   required
                 />
                 {option}
